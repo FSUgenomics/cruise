@@ -1,29 +1,14 @@
 version: "2"
+
 services:
-  db:
-    build: ./db
-    environment:
-     - DBDBID=${DBDBID}
-     - BASEDIR=${BASEDIR}
-     - GBDIR=${GBDIR}
-     - SWDIR=${SWDIR}
-     - BROWSERDIR=${BROWSERDIR}
-     - DOMAIN=${DOMAIN}
-     - SQLHOST=${SQLHOST}
-     - DEFAULTGENOME=${DEFAULTGENOME}
-     - BROWSERNAME=${BROWSERNAME}
-     - WIKIEMAIL=${WIKIEMAIL}
-     - EMAILADDRESS=${EMAILADDRESS}
-     - SQL_USER=${SQL_USER}
-     - SQL_PASSWORD=${SQL_PASSWORD}
-     - MYSQLDATA=${MYSQLDATA}
-     - WEBROOT=${WEBROOT}
-     - CGI_BIN=${CGI_BIN}
-     - MACHTYOE=${MACHTYPE}
-     - MySQL_USER=$SQL_USER
-     - USE_SSL=${USE_SSL}
-     - USE_SAMTBIX=${USE_SAMTABIX}
-     - SAMTABIXDIR=${SAMTABIXDIR}
-     - HGCONF=${HGCONF}
-     - PATH=${PATH}
-     
+  sql:
+    build: sql
+    environment: browser_config
+  www:
+    build: www
+    environment: browser_config
+    ports: "80:80"
+  # blat:
+  #   build: ./start_blatserver
+  #   environment: browser_config
+  #   ports: "10000:10000"

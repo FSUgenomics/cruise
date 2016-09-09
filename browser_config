@@ -1,0 +1,12 @@
+
+# for db and www
+DBDBID=1ilMW4gv8XsECFuKpSlOFWVhO_04qiogVdQHYYxQF2ZM
+SQL_PASSWORD=genome
+# for www
+SQL_HOST=cruise_sql
+SQL_USER=root
+DOMAIN=local
+WIKIEMAIL=NOEMAIL
+BROWSERNAME=TheGreenomeBrowser
+EMAILADDRESS=vera@genomics.fsu.edu
+DEFAULTGENOME=someGenome
