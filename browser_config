@@ -1,12 +1,38 @@
+# #########################
+# cruise configuration file
+# #########################
 
-# for db and www
+# DBDBID specifies the google ID of the spreadsheet containing metadata about
+#   the genomes to be loaded in the browser database.
 DBDBID=1ilMW4gv8XsECFuKpSlOFWVhO_04qiogVdQHYYxQF2ZM
-SQL_PASSWORD=genome
-# for www
+
+# SQL_HOST is used by the web server to connect the mysql container
+# This should match the hostname used to run the mysql container
 SQL_HOST=cruise_sql
+
+# SQL_PASSWORD defines the password for the administrator mysql user.
+# For production, you should change this to something more secure.
+SQL_PASSWORD=genome
+
+# SQL_USER defines the mysql user name for the administrator mysql user.
+# Keeping this set to root should be OK for most users.
 SQL_USER=root
-DOMAIN=local
+
+# DOMAIN defines the domain used for various features, including cookies and wiki
+# Keeping this set to HTTPHOST should be OK for most users.
+# "The special value HTTPHOST will set the domain to whatever servername was
+#   sent with the last HTTP request"
+DOMAIN=HTTPHOST
+
+# WIKIEMAIL is used as the return email address for WIKI account creation
+#  confirmation emails. Setting this to NOEMAIL will skip email validation.
 WIKIEMAIL=NOEMAIL
-BROWSERNAME=TheGreenomeBrowser
-EMAILADDRESS=vera@genomics.fsu.edu
+
+# BROWSERNAME defines the title of host of browser shown in the user interface
+BROWSERNAME=cruise_browser
+
+# EMAILADDRESS sets the administrator email for suggestions and other pages
+EMAILADDRESS=user@host.com
+
+# DEFAULTGENOME sets the genome loaded when users go straight to the browser
 DEFAULTGENOME=someGenome
