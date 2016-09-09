@@ -38,6 +38,6 @@ mysql -uroot -p${SQL_PASSWORD} -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP
 #mysql -uroot -p${SQL_PASSWORD} -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER,INDEX on customTrash.* TO readwrite@'localhost' IDENTIFIED by 'update';" mysql
 mysql -uroot -p${SQL_PASSWORD} -e "FLUSH PRIVILEGES;"
 
-
+mysqld_safe
 # clear from hgcentral: defaultDb, clade, genomeClade, dbDb, dbDbArch, liftOverChain, hubPublic, targetDb
 # make sure host info is correct for custom tracks
