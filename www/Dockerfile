@@ -5,6 +5,7 @@ MAINTAINER "Daniel Vera" vera@genomics.fsu.edu
 VOLUME /gbdb
 EXPOSE 80
 
+
 ENV CGI_BIN=/var/www/cgi-bin
 ENV SAMTABIXDIR=/opt/samtabix/
 ENV USE_SSL=1
@@ -12,7 +13,8 @@ ENV USE_SAMTABIX=1
 ENV MACHTYPE=x86_64
 ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-COPY ./remake_hgconf.sh /root/
+COPY ./update /usr/bin/
+
 
 RUN yum update -y && yum install -y \
  httpd \
@@ -33,7 +35,6 @@ RUN yum update -y && yum install -y \
  git \
  mariadb-devel.x86_64 \
  unzip
-
 
  # download latest browser site from UCSC
  RUN rsync -avz \
@@ -56,9 +57,11 @@ RUN yum update -y && yum install -y \
  # make symlinks to address bugs in file references
  RUN ln -s /var/www /var/www/html && \
  ln -s /var/www /var/www/htdocs && \
+ ln -s /var/www /usr/local/apache/htdocs
  ln -s /var/www/cgi-bin /usr/lib/cgi-bin && \
  ln -s /var/www/cgi-bin /var/www/cgi-bin- && \
- ln -s /var/www/cgi-bin /var/www/cgi-bin-root
+ ln -s /var/www/cgi-bin /var/www/cgi-bin-root \
+ ln -s /gbdb /var/www/gbdb
 
 # fix permissions for website data
 RUN rm -fr /var/www/trash && \
@@ -92,4 +95,4 @@ RUN pkill httpd || :
 RUN sed -i 's#\/var\/www\/html#\/var\/www#g' /etc/httpd/conf/httpd.conf
 RUN echo -e 'XBitHack on\n<Directory /var/www/>\nOptions +Includes\n</Directory>' >> /etc/httpd/conf/httpd.conf
 
-CMD ["/usr/sbin/apachectl"]
+CMD ["httpd"]

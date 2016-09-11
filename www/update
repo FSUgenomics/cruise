@@ -19,3 +19,21 @@ sed -i 's/customTracks\.user=.*/customTracks\.user=readwrite/g' /var/www/cgi-bin
 sed -i 's/customTracks\.password=.*/customTracks\.password=update/g' /var/www/cgi-bin/hg.conf
 sed -i 's#customTracks\.tmpdir=.*#customTracks\.tmpdir='/var/www/trash/ct'#g' /var/www/cgi-bin/hg.conf
 sed -i 's#browser.documentRoot=.*#browser.documentRoot='/var/www'#g' /var/www/cgi-bin/hg.conf
+
+
+
+curl -sL "https://spreadsheets.google.com/feeds/download/spreadsheets/Export?key="$DBDBID"&hl=en&exportFormat=tsv" | \
+ tr -d "\r" > /tmp/dbDb.tsv && echo "" >> /tmp/dbDb.tsv
+
+# make assembly html files #######
+cols=$(head -n 1 /tmp/dbDb.tsv) && \
+ tail -n+2 /tmp/dbDb.tsv | while IFS=$'\t' read -r $cols
+ do
+  mkdir $htmlPath
+  if [ "$summary" != "NA" ]; then
+    echo "<br> $summary <br><hr>" > $htmlPath
+  fi
+  if [ "$credits" != "NA" ]; then
+    echo "<h2>Credits</h2> $credits <hr>" >> $htmlPath
+  fi
+ done

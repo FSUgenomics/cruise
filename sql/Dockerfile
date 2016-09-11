@@ -3,6 +3,7 @@ FROM centos:7
 
 MAINTAINER "Daniel Vera" vera@genomics.fsu.edu
 VOLUME /var/lib/mysql
+VOLUME /gbdb
 EXPOSE 3306
 
 ENV CGI_BIN=/var/www/cgi-bin
@@ -12,18 +13,8 @@ ENV USE_SAMTABIX=1
 ENV MACHTYPE=x86_64
 ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# ARG DBDBID=1ilMW4gv8XsECFuKpSlOFWVhO_04qiogVdQHYYxQF2ZM
-# ARG SQL_HOST=localhost
-# ARG SQL_USER=root
-# ARG SQL_PASSWORD=genome
-# ARG DOMAIN=local
-# ARG WIKIEMAIL=NOEMAIL
-# ARG BROWSERNAME=TheGenomeBrowser
-# ARG EMAILADDRESS=user@host.com
-# ARG DEFAULTGENOME=hg38
-
-COPY ./update_db.sh /usr/bin
-COPY ./initiate_db.sh /usr/bin/
+COPY ./update /usr/bin
+COPY ./initiate /usr/bin/
 
 RUN yum update -y && yum install -y \
  mariadb-server.x86_64 \

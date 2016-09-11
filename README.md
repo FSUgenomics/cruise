@@ -10,17 +10,12 @@ The UCSC Genome Browser is a web-based genome browser widely used for viewing an
 
 ## requirements
 
-- docker engine
+- [docker engine](https://www.docker.com/)
+- [docker compose](https://www.docker.com/products/docker-compose) (optional)
 
 ## get
 
-install docker if not installed already:
-
-```bash
-curl -fsSL https://get.docker.com/ | sh
-```
-
-get `cruise` via github
+via github
 
 ```bash
 git clone https://github.com/dvera/cruise && cd cruise
@@ -32,33 +27,42 @@ with compose:
 
 ```bash
 docker-compose up
-# browser is now accessible at http://127.0.0.1/
 ```
 
-without compose:
+or without compose:
 
 ```bash
-# make a directories on host to store the genome data and database
-mkdir -p /gd
-mkdir -p /db
 
 # build the database and webserver images
 (cd sql && docker build -t cruise_sql .)
 (cd www && docker build -t cruise_www .)
 
-# initiate a mysql database
-docker run -d --name cruise_sql --env-file ../browser_config -v ${HOME}/cruisedb:/var/lib/mysql -p 80:80 cruise_sql
+# start database container
+docker run -d \
+ -p 3306:3306 \
+ --name cruise_sql \
+ -h cruise_www \
+ --env-file browser_config \
+ -v $(pwd)/gbdb:/gbdb -v $(pwd)/sqldb:/var/lib/mysql \
+ --link cruise_www:cruise_www \
+ cruise_sql initiate
 
-# start database and webserver containers
-docker run -d --name cruise_sql --env-file ../browser_config -v ${HOME}/cruisedb:/var/lib/mysql -p 80:80 cruise_sql
-docker run -d --name cruise_www --env-file ../browser_config --link sql:sql  www
-
-# browser is now accessible on localhost port 80
+# start webserver container
+docker run -d \
+ -p 80:80 \
+ --name cruise_www \
+ -h cruise_sql
+ --env-file browser_config \
+ -v $(pwd)/gbdb:/gbdb \
+ --link cruise_sql:cruise_sql \
+ cruise_www
 ```
+
+refer to the [docs](http://dvera.github.io/cruise) for production usage
 
 ## customize
 
-The backend of the UCSC genome browser is a series of mysql database composed of an `hgcentral` database that defines the genomes loaded and contains user/session info, and a database for each genome that contains track data, metadata and display settings. `cruise` simplifies the creation and management of these databases and all their associated tables by allowing users to enter genome and track metadata into a simple google spreadsheet tabulating information for each genome to be displayed, and another google spreadsheet tabulating what tracks are shown and how they are displayed. When the user wants to update the browser with new genomes, tracks, or track settings, `cruise` will download these spreadsheets and automatically rebuild the genome and track databases, negating the need for the user to directly interact with the mysql database.
+The data for a UCSC genome browser is stored in a series of mysql databases including a `hgcentral` database that defines the genomes loaded and contains user/session info, and a database for each genome that contains track data, metadata and display settings. `cruise` simplifies the creation and management of these databases by allowing users to enter genome and track metadata into a simple google spreadsheet tabulating information for each genome to be displayed, and another google spreadsheet tabulating what tracks are shown and how they are displayed. When the user wants to update the browser with new genomes, tracks, or track settings, `cruise` will download these spreadsheets and automatically rebuild the genome and track databases, negating the need for the user to directly interact with the mysql database.
 
 Configure the browser by editing browser_config file.
 
