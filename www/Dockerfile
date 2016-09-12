@@ -96,4 +96,4 @@ RUN pkill httpd || :
 RUN sed -i 's#\/var\/www\/html#\/var\/www#g' /etc/httpd/conf/httpd.conf
 RUN echo -e 'XBitHack on\n<Directory /var/www/>\nOptions +Includes\n</Directory>' >> /etc/httpd/conf/httpd.conf
 
-CMD ["httpd"]
+CMD ["httpd -DFOREGROUND"]
