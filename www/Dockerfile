@@ -57,10 +57,11 @@ RUN yum update -y && yum install -y \
  # make symlinks to address bugs in file references
  RUN ln -s /var/www /var/www/html && \
  ln -s /var/www /var/www/htdocs && \
- ln -s /var/www /usr/local/apache/htdocs
+ mkdir /usr/local/apache && \
+ ln -s /var/www /usr/local/apache/htdocs && \
  ln -s /var/www/cgi-bin /usr/lib/cgi-bin && \
  ln -s /var/www/cgi-bin /var/www/cgi-bin- && \
- ln -s /var/www/cgi-bin /var/www/cgi-bin-root \
+ ln -s /var/www/cgi-bin /var/www/cgi-bin-root && \
  ln -s /gbdb /var/www/gbdb
 
 # fix permissions for website data

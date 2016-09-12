@@ -1,0 +1,2 @@
+gfServer -tileSize=7 -canStop start leopold.iplantcollaborative.org 17777 -stepSize=5 b73v2.2bit &
+gfServer -trans -canStop start leopold.iplantcollaborative.org 17778 b73v2.2bit &

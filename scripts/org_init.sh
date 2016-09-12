@@ -1,6 +1,18 @@
+#!/usr/bin/env bash
+
+# BROWSER DATA SETUP HELPER SCRIPT
+
+# this script should take a google id as the argument on the command line, with the columns:
+
+# gbdbdir (all same)
+# database name (for genome)
+# file location (can be local or remote, distringuished with ":")
+
+# fasta or 2bit files will be detected by extension and used as the genome 2bit
+# 
+
 # RUN THIS ON THE WEB SERVER
 wget -brA 'dna_sm.genome.fa.gz' ftp://ftp.ensemblgenomes.org/pub/plants/release-31/fasta/
-
 
 
 mkdir -p $nibPath/bbi
@@ -12,24 +24,14 @@ cp ftp.ensemblgenomes.org/pub/plants/release-31/fasta/$dname/dna/*dna_sm.genome.
 gunzip $nibPath/genome.fa.gz
 
 faToTwoBit $nibPath/genome.fa $nibPath/genome.2bit
-
 twoBitInfo $nibPath/genome.2bit stdout | awk "{printf \"%s\t%s\t$nibPath/genome.2bit\n\", \$1,\$2}" > $nibPath/chromInfo.tab
 cut -f 1,2 $nibPath/chromInfo.tab | sort -k1,1 > $nibPath/genome.chrom.sizes
-
-
-#echo "$(wc -l /gbdb/$name/chromInfo.tab | awk '{print $1}') scaffolds found"
-
-#echo "adding ideogram track configuration"
 echo -e "track cytoBandIdeo\nshortLabel Chromosome Band (Ideogram)\nlongLabel Ideogram for Orientation\ngroup map\nvisibility dense\ntype bed 4 +" >> $nibPath/trackDb.ra
-
 cat $nibPath/genome.chrom.sizes | awk '{print $1"\t"0"\t"$2"\t""\t""gneg"}' | sort -k1,1 -k2,2n > $nibPath/cytoband.bed
 
 
 wget -qO- ftp://ftp.ensemblgenomes.org/pub/current/plants/gtf/zea_mays/Zea_mays.AGPv3.31.gtf.gz | gunzip -c | gtfToGenePred /dev/stdin /dev/stdout | genePredToBed /dev/stdin /dev/stdout | sort -k1,1 -k2,2n -k3,3n > $GBDIR/$name/bbi/ensemblGenes.bed
 bedToBigBed $GBDIR/$name/bbi/ensemblGenes.bed $GBDIR/$name/genome.chrom.sizes $GBDIR/$name/bbi/ensemblGenes.bb
-
-
-
 
 
 while IFS=$'\t' read -r $cols

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+IPR=$(hostname -I | sed 's/\.0\.[[:digit:]]/\.%\.%/g')
+
 echo -e 'db.host=localhost\ndb.user='${SQL_USER}'\ndb.password='${SQL_PASSWORD} > /root/.hg.conf
 chmod 600 /root/.hg.conf
 
@@ -157,7 +159,7 @@ do
       $nibPath/trackDb.tsv | grep -v " NA$" | grep -v "^_" > $nibPath/trackDb.ra
     hgFindSpec $nibPath $name hgFindSpec /opt/kent/src/hg/lib/hgFindSpec.sql $nibPath
     hgTrackDb $nibPath $name trackDb /opt/kent/src/hg/lib/trackDb.sql $nibPath
-    mysql -u${SQL_USER} -p${SQL_PASSWORD} -e "GRANT SELECT on $name.* TO readonly@'%' IDENTIFIED BY 'access';"
+    mysql -u${SQL_USER} -p${SQL_PASSWORD} -e "GRANT SELECT on $name.* TO readonly@'"${IPR}"' IDENTIFIED BY 'access';"
   fi
 done
 
