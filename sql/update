@@ -213,3 +213,5 @@ do
 done
 
 mysql -u${SQL_USER} -p${SQL_PASSWORD} -e "FLUSH PRIVILEGES;"
+
+tail -f /var/log/mariadb/mariadb.log
