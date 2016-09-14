@@ -12,6 +12,8 @@ SQL_HOST=cruise_sql
 
 # SQL_PASSWORD defines the password for the administrator mysql user.
 # For production, you should change this to something more secure.
+# Note that if this is changed after a database is initiated, you must manually
+#   change the mysql root password in the mysql container
 SQL_PASSWORD=genome
 
 # SQL_USER defines the mysql user name for the administrator mysql user.
