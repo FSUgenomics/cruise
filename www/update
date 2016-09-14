@@ -21,3 +21,10 @@ sed -i 's/customTracks\.user=.*/customTracks\.user=readwrite/g' /var/www/cgi-bin
 sed -i 's/customTracks\.password=.*/customTracks\.password=update/g' /var/www/cgi-bin/hg.conf
 sed -i 's#customTracks\.tmpdir=.*#customTracks\.tmpdir='/var/www/trash/ct'#g' /var/www/cgi-bin/hg.conf
 sed -i 's#browser.documentRoot=.*#browser.documentRoot='/var/www'#g' /var/www/cgi-bin/hg.conf
+
+#!/bin/bash
+
+if pgrep "httpd" > /dev/null; then
+    echo "httpd not running, starting..."
+    httpd -DFOREGROUND
+fi
