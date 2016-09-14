@@ -12,9 +12,9 @@ else
   initiate
 fi
 
-if [ "$(ls -A /gbdb)" ]; then
+if [ ! "$(ls -A /gbdb)" ]; then
   echo "no genome data found in /gbdb, downloading example data..."
-  wget -r -np -e robots=off -nH --cut-dirs=3 -R 'html' -R '\?C=' \
+  wget -q -r -np -e robots=off -nH --cut-dirs=3 -R 'html' -R '\?C=' \
    http://www.bio.fsu.edu/~dvera/share/cruise/gbdb
 
 fi
@@ -175,7 +175,7 @@ do
       echo "      - $track"
       if [ $bigDataUrl != "NA" ] && [ ${_on} -eq 1 ]; then
 
-        if [ !$bigDataUrl ~= ":" ] && [ !(-f $bigDataUrl) ]; then
+        if [[ ! $bigDataUrl =~ ":" ]] && [ ! -f $bigDataUrl ]; then
           echo "WARNING: $bigDataUrl DOES NOT EXIST for track $track"
         fi
 
