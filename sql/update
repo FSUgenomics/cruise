@@ -5,7 +5,7 @@ if [ "$(ls -A /var/lib/mysql)" ]; then
     echo "mysqld is running"
   else
     echo "mysqld not running, starting..."
-    mysqld_safe &
+    mysqld_safe & sleep 7
   fi
 else
   echo "no mysql database found, initiating..."
@@ -195,8 +195,8 @@ do
 
       mkdir -p $nibPath/html
       #if [ "$html" != "NA" ]; then
-        echo "<h2>Credits</h2> $_credits <hr>" > ${html}.html
-        echo "<h2>Methods</h2> $_methods <hr>" >> ${html}.html
+        echo "<h2>Credits</h2> $_credits <hr>" > /gbdb/$name/${html}.html
+        echo "<h2>Methods</h2> $_methods <hr>" >> /gbdb/$name/${html}.html
       #fi
     done
 
