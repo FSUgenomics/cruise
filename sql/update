@@ -11,6 +11,14 @@ else
   initiate
 fi
 
+if [ "$(ls -A /gbdb)" ]; then
+  echo "no genome data found in /gbdb, downloading example data..."
+  wget -r -np -e robots=off -nH --cut-dirs=3 -R 'html' -R '\?C=' \
+   http://www.bio.fsu.edu/~dvera/share/cruise/gbdb
+
+fi
+
+
 IP=$(hostname -I)
 export IPR=$( echo $IP | sed 's/\.0\.[[:digit:]]/\.%\.%/g')
 

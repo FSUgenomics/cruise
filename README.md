@@ -43,10 +43,6 @@ or without compose:
 
 ```bash
 
-# download example data
-wget -r -np -e robots=off -nH --cut-dirs=3 -R 'html' -R '\?C=' \
- http://www.bio.fsu.edu/~dvera/share/cruise/gbdb
-
 # build the database and webserver images
 (cd sql && docker build -t cruise_sql .)
 (cd www && docker build -t cruise_www .)

@@ -92,8 +92,8 @@ RUN rm -f /var/www/cgi-bin/webBlat && \
  rm -f /var/www/cgi-bin/webBlat.cfg && \
  cp -f /opt/kent/src/webBlat/webBlat.cfg /var/www/cgi-bin/
 
-RUN pkill httpd || :
+#RUN pkill httpd || :
 RUN sed -i 's#\/var\/www\/html#\/var\/www#g' /etc/httpd/conf/httpd.conf
 RUN echo -e 'XBitHack on\n<Directory /var/www/>\nOptions +Includes\n</Directory>' >> /etc/httpd/conf/httpd.conf
 
-CMD ["httpd -DFOREGROUND"]
+CMD ["httpd","-DFOREGROUND"]
