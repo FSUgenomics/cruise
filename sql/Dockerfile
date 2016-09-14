@@ -24,7 +24,8 @@ RUN yum update -y && yum install -y \
  libpng-devel.x86_64 \
  tcsh \
  perl \
- git
+ git \
+ wget
 
  # create mysql config file
  RUN echo -e '[mysqld]\n'\
