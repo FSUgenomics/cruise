@@ -13,9 +13,6 @@ ENV USE_SAMTABIX=1
 ENV MACHTYPE=x86_64
 ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-COPY ./update /usr/bin
-COPY ./initiate /usr/bin/
-
 RUN yum update -y && yum install -y \
  mariadb-server.x86_64 \
  mariadb-devel.x86_64 \
@@ -47,3 +44,8 @@ RUN mkdir -p /root/bin/x86_64
 RUN cd /opt && curl -sLo jksrc.zip http://hgdownload.cse.ucsc.edu/admin/jksrc.zip && unzip -q jksrc.zip && rm -f jksrc.zip
 RUN echo 'L+= -lz' >> /opt/kent/src/inc/common.mk
 RUN cd /opt/kent/src && make clean && make -j $(nproc) utils
+
+COPY ./update /usr/bin
+COPY ./initiate /usr/bin/
+
+CMD ["update"]

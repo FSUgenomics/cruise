@@ -13,9 +13,6 @@ ENV USE_SAMTABIX=1
 ENV MACHTYPE=x86_64
 ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-COPY ./update /usr/bin/
-
-
 RUN yum update -y && yum install -y \
  httpd \
  libimobiledevice-devel.x86_64 \
@@ -96,4 +93,6 @@ RUN rm -f /var/www/cgi-bin/webBlat && \
 RUN sed -i 's#\/var\/www\/html#\/var\/www#g' /etc/httpd/conf/httpd.conf
 RUN echo -e 'XBitHack on\n<Directory /var/www/>\nOptions +Includes\n</Directory>' >> /etc/httpd/conf/httpd.conf
 
-CMD ["httpd","-DFOREGROUND"]
+COPY ./update /usr/bin/
+
+CMD ["update"]

@@ -2,10 +2,11 @@
 
 if [ "$(ls -A /var/lib/mysql)" ]; then
   if pgrep "mysqld" > /dev/null; then
+    echo "mysqld is running"
+  else
     echo "mysqld not running, starting..."
     mysqld_safe &
   fi
-fi
 else
   echo "no mysql database found, initiating..."
   initiate
