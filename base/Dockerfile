@@ -1,0 +1,40 @@
+
+FROM centos:7
+
+MAINTAINER "Daniel Vera" vera@genomics.fsu.edu
+
+ENV CGI_BIN=/var/www/cgi-bin
+ENV SAMTABIXDIR=/opt/samtabix/
+ENV USE_SSL=1
+ENV USE_SAMTABIX=1
+ENV MACHTYPE=x86_64
+ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RUN yum update -y && yum install -y \
+ gcc \
+ openssl-static.x86_64 \
+ usbmuxd-devel.x86_64 \
+ mariadb-devel.x86_64 \
+ libimobiledevice-devel.x86_64 \
+ ghostscript \
+ libplist-devel.x86_64 \
+ libstdc++-devel.x86_64 \
+ libstdc++-static.x86_64 \
+ make \
+ unzip \
+ libpng-devel.x86_64 \
+ tcsh \
+ perl \
+ git \
+ rsync \
+ wget
+
+RUN mkdir -p /root/bin/x86_64
+
+# grab and compile samtabix
+RUN git clone http://genome-source.cse.ucsc.edu/samtabix.git /opt/samtabix && cd /opt/samtabix && make
+
+#RUN cd /opt && curl -sLo master.zip https://github.com/ucscGenomeBrowser/kent/archive/master.zip && unzip -q master.zip && mv kent-master kent && rm -f master.zip
+RUN cd /opt && curl -sLo jksrc.zip http://hgdownload.cse.ucsc.edu/admin/jksrc.zip && unzip -q jksrc.zip && rm -f jksrc.zip
+RUN echo 'L+= -lz' >> /opt/kent/src/inc/common.mk
+RUN cd /opt/kent/src && make clean && make -j $(nproc) utils
