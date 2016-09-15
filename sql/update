@@ -5,7 +5,7 @@ if [ "$(ls -A /var/lib/mysql)" ]; then
     echo "mysqld is running"
   else
     echo "mysqld not running, starting..."
-    mysqld_safe & sleep 7
+    mysqld_safe & sleep 5
   fi
 else
   echo "no mysql database found, initiating..."
@@ -18,10 +18,6 @@ if [ ! "$(ls -A /gbdb)" ]; then
    http://www.bio.fsu.edu/~dvera/share/cruise/gbdb
 
 fi
-
-
-IP=$(hostname -I)
-export IPR=$( echo $IP | sed 's/\.0\.[[:digit:]]/\.%\.%/g')
 
 echo -e 'db.host=localhost\ndb.user='${SQL_USER}'\ndb.password='${SQL_PASSWORD} > /root/.hg.conf
 chmod 600 /root/.hg.conf
@@ -208,7 +204,7 @@ do
       $nibPath/trackDb.tsv | grep -v " NA$" | grep -v "^_" > $nibPath/trackDb.ra
     hgFindSpec $nibPath $name hgFindSpec /opt/kent/src/hg/lib/hgFindSpec.sql $nibPath
     hgTrackDb $nibPath $name trackDb /opt/kent/src/hg/lib/trackDb.sql $nibPath
-    mysql -u${SQL_USER} -p${SQL_PASSWORD} -e "GRANT SELECT on $name.* TO readonly@'"${IPR}"' IDENTIFIED BY 'access';"
+    mysql -u${SQL_USER} -p${SQL_PASSWORD} -e "GRANT SELECT on $name.* TO readonly@'172.%.%.%' IDENTIFIED BY 'access';"
   fi
 done
 

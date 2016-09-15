@@ -1,5 +1,5 @@
 
-FROM centos:7
+FROM vera/kent:latest
 
 MAINTAINER "Daniel Vera" vera@genomics.fsu.edu
 VOLUME /var/lib/mysql
@@ -14,18 +14,7 @@ ENV MACHTYPE=x86_64
 ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 RUN yum update -y && yum install -y \
- mariadb-server.x86_64 \
- mariadb-devel.x86_64 \
- gcc \
- libstdc++-devel.x86_64 \
- libstdc++-static.x86_64 \
- make \
- unzip \
- libpng-devel.x86_64 \
- tcsh \
- perl \
- git \
- wget
+ mariadb-server.x86_64
 
  # create mysql config file
  RUN echo -e '[mysqld]\n'\
@@ -40,11 +29,11 @@ RUN yum update -y && yum install -y \
  'socket                 =/var/lib/mysql/mysql.sock\n'\
   > /etc/my.cnf
 
-RUN mkdir -p /root/bin/x86_64
+#RUN mkdir -p /root/bin/x86_64
 #RUN cd /opt && curl -sLo master.zip https://github.com/ucscGenomeBrowser/kent/archive/master.zip && unzip -q master.zip && mv kent-master kent && rm -f master.zip
-RUN cd /opt && curl -sLo jksrc.zip http://hgdownload.cse.ucsc.edu/admin/jksrc.zip && unzip -q jksrc.zip && rm -f jksrc.zip
-RUN echo 'L+= -lz' >> /opt/kent/src/inc/common.mk
-RUN cd /opt/kent/src && make clean && make -j $(nproc) utils
+#RUN cd /opt && curl -sLo jksrc.zip http://hgdownload.cse.ucsc.edu/admin/jksrc.zip && unzip -q jksrc.zip && rm -f jksrc.zip
+#RUN echo 'L+= -lz' >> /opt/kent/src/inc/common.mk
+#RUN cd /opt/kent/src && make clean && make -j $(nproc) utils
 
 COPY ./update /usr/bin
 COPY ./initiate /usr/bin/
