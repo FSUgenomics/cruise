@@ -22,13 +22,11 @@ sed -i 's/customTracks\.password=.*/customTracks\.password=update/g' /var/www/cg
 sed -i 's#customTracks\.tmpdir=.*#customTracks\.tmpdir='/var/www/trash/ct'#g' /var/www/cgi-bin/hg.conf
 sed -i 's#browser.documentRoot=.*#browser.documentRoot='/var/www'#g' /var/www/cgi-bin/hg.conf
 
-#!/bin/bash
-
-if pgrep "httpd" > /dev/null; then
-  echo "httpd running"
-else
-  echo "httpd not running, starting..."
-  httpd
-fi
+# if pgrep "httpd" > /dev/null; then
+#   echo "httpd running"
+# else
+#   echo "httpd not running, starting..."
+/usr/sbin/apachectl
+# fi
 
 tail -f /var/log/httpd/access_log
