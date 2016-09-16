@@ -13,6 +13,7 @@ services:
     volumes:
     - ./gbdb:/gbdb
     - ./sqldb:/var/lib/mysql
+    - ./cruise_scripts:/usr/local/bin
     networks:
     - cruise_nw
   www:
@@ -26,6 +27,7 @@ services:
     - "443:443"
     volumes:
     - ./gbdb:/gbdb
+    - ./cruise_scripts:/usr/local/bin
     networks:
     - cruise_nw
 # UNCOMMENT BELOW TO ENABLE BLAT ON THE SAME HOST RUNNING THE BROWSER

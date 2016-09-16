@@ -1,0 +1,12 @@
+[submodule "cruise_www"]
+	path = cruise_www
+	url = git@github.com:fsugenomics/cruise_www
+[submodule "cruise_sql"]
+	path = cruise_sql
+	url = git@github.com:fsugenomics/cruise_sql
+[submodule "cruise_base"]
+	path = cruise_base
+	url = git@github.com:fsugenomics/cruise_base
+[submodule "cruise_scripts"]
+	path = cruise_scripts
+	url = git@github.com:fsugenomics/cruise_scripts
