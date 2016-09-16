@@ -16,7 +16,6 @@ ENV PATH=/root/bin/x86_64:/opt/samtabix/:/usr/local/sbin:/usr/local/bin:/usr/sbi
 RUN yum update -y && yum install -y \
  mariadb-server.x86_64
 
- # create mysql config file
  RUN echo -e '[mysqld]\n'\
  'user                   =mysql\n'\
  'datadir                =/var/lib/mysql\n'\
@@ -28,12 +27,6 @@ RUN yum update -y && yum install -y \
  'pid-file               =/var/run/mariadb/mariadb.pid\n'\
  'socket                 =/var/lib/mysql/mysql.sock\n'\
   > /etc/my.cnf
-
-#RUN mkdir -p /root/bin/x86_64
-#RUN cd /opt && curl -sLo master.zip https://github.com/ucscGenomeBrowser/kent/archive/master.zip && unzip -q master.zip && mv kent-master kent && rm -f master.zip
-#RUN cd /opt && curl -sLo jksrc.zip http://hgdownload.cse.ucsc.edu/admin/jksrc.zip && unzip -q jksrc.zip && rm -f jksrc.zip
-#RUN echo 'L+= -lz' >> /opt/kent/src/inc/common.mk
-#RUN cd /opt/kent/src && make clean && make -j $(nproc) utils
 
 COPY ./update /usr/bin
 COPY ./initiate /usr/bin/

@@ -31,10 +31,8 @@ RUN yum update -y && yum install -y \
 
 RUN mkdir -p /root/bin/x86_64
 
-# grab and compile samtabix
 RUN git clone http://genome-source.cse.ucsc.edu/samtabix.git /opt/samtabix && cd /opt/samtabix && make
 
-#RUN cd /opt && curl -sLo master.zip https://github.com/ucscGenomeBrowser/kent/archive/master.zip && unzip -q master.zip && mv kent-master kent && rm -f master.zip
 RUN cd /opt && curl -sLo jksrc.zip http://hgdownload.cse.ucsc.edu/admin/jksrc.zip && unzip -q jksrc.zip && rm -f jksrc.zip
 RUN echo 'L+= -lz' >> /opt/kent/src/inc/common.mk
 RUN sed -i 's/hgBeacon//g;s/hgMirror//g' /opt/kent/src/hg/makefile

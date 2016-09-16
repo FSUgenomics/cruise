@@ -27,8 +27,6 @@ mysql -uroot -p${SQL_PASSWORD} hgcentral < /var/lib/mysql/hgcentral.sql
 chown -R mysql:mysql /var/lib/mysql
 #chmod -R 755 /ucsc/mysql #necessary?
 
-IPR=$(hostname -I | sed 's/\.0\.[[:digit:]]/\.%\.%/g')
-
 mysql -uroot -p${SQL_PASSWORD} -e "GRANT ALL PRIVILEGES on *.* TO root@'172.%.%.%' IDENTIFIED BY '"${SQL_PASSWORD}"' WITH GRANT OPTION;" mysql
 mysql -uroot -p${SQL_PASSWORD} -e "GRANT SELECT on hgFixed.* TO readonly@'172.%.%.%' IDENTIFIED BY 'access';" mysql
 mysql -uroot -p${SQL_PASSWORD} -e "GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER on hgcentral.* TO readwrite@'172.%.%.%' IDENTIFIED BY 'update';" mysql
