@@ -1,6 +1,6 @@
 [submodule "cruise_blat"]
-        path = cruise_blat
-        url = https://github.com/fsugenomics/cruise_blat
+	path = cruise_blat
+	url = https://github.com/fsugenomics/cruise_blat
 [submodule "cruise_www"]
 	path = cruise_www
 	url = https://github.com/fsugenomics/cruise_www
