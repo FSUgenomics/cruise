@@ -2,8 +2,9 @@ version: "2"
 
 services:
   sql:
-    build:
-      context: ./sql
+    image: vera/cruise_sql
+    # build:
+    #   context: ./cruise_sql
     container_name: cruise_sql
 #    command: update
     env_file:
@@ -17,8 +18,9 @@ services:
     networks:
     - cruise_nw
   www:
-    build:
-      context: ./www
+    image: vera/cruise_www
+    # build:
+    #   context: ./cruise_www
     container_name: cruise_www
     env_file:
     - browser_config

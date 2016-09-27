@@ -15,7 +15,17 @@ The data for a UCSC genome browser is stored in a series of mysql databases incl
 ## requirements
 
 - [docker engine](https://www.docker.com/)
+
+  ```bash
+  curl -L https://get.docker.com | sh
+  ```
+
 - [docker compose](https://www.docker.com/products/docker-compose) (optional)
+
+  ```bash
+  curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose && \
+  chmod +x /usr/local/bin/docker-compose
+  ```
 
 ## get
 
@@ -43,10 +53,6 @@ or without compose:
 
 ```bash
 
-# build the database and webserver images
-(cd sql && docker build -t cruise_sql .)
-(cd www && docker build -t cruise_www .)
-
 # create a bridge network for containers
 docker network create cruise_nw
 
@@ -56,9 +62,11 @@ docker run -it \
  --name cruise_sql \
  -h cruisesql \
  --env-file browser_config \
- -v $(pwd)/gbdb:/gbdb -v $(pwd)/sqldb:/var/lib/mysql \
+ -v $(pwd)/gbdb:/gbdb \
+ -v $(pwd)/sqldb:/var/lib/mysql \
+ -v $(pwd)/cruise_scripts:/usr/local/bin \
  --network cruise_nw \
- cruise_sql initiate
+ vera/cruise_sql
 
 # start webserver container
 docker run -d \
@@ -67,8 +75,20 @@ docker run -d \
  -h cruisewww \
  --env-file browser_config \
  -v $(pwd)/gbdb:/gbdb \
+ -v $(pwd)/cruise_scripts:/usr/local/bin \
  --network cruise_nw \
- cruise_www
+ vera/cruise_www
+
+# run admin container to update
+ docker run -it \
+  --name cruise_admin \
+  -h cruiseadmin \
+  --env-file browser_config \
+  -v $(pwd)/gbdb:/gbdb \
+  -v $(pwd)/cruise_scripts:/usr/local/bin \
+  --network cruise_nw \
+  vera/cruise_admin \
+  update_browser
 ```
 
 refer to the [docs](http://dvera.github.io/cruise) for production usage
