@@ -12,7 +12,7 @@ services:
     ports:
     - "3306:3306"
     volumes:
-    - ./gbdb:/gbdb
+# change this to mount a different host directory for the mysql data dir
     - ./sqldb:/var/lib/mysql
     - ./cruise_scripts:/usr/local/bin
     networks:
@@ -28,10 +28,23 @@ services:
     - "80:80"
     - "443:443"
     volumes:
-    - ./gbdb:/gbdb
+# change this to mount a different host directory for the gbdb dir
+    - ./gbdb:/gbdb:ro
     - ./cruise_scripts:/usr/local/bin
     networks:
     - cruise_nw
+  admin:
+    image: vera/cruise_admin
+    container_name: cruise_admin
+    env_file:
+    - browser_config
+    volumes:
+    - ./gbdb:/gbdb:rw
+    networks:
+    - cruise_nw
+    depends_on:
+    - cruise_www
+    - cruise_sql
 # UNCOMMENT BELOW TO ENABLE BLAT ON THE SAME HOST RUNNING THE BROWSER
 #   MAKE SURE YOU HAVE ENOUGH RAM ON HOST (>500MByte/GBase for DNA, >1GB/GBase for Protein )
   # blat:

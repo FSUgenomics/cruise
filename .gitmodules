@@ -13,3 +13,6 @@
 [submodule "cruise_scripts"]
 	path = cruise_scripts
 	url = https://github.com/fsugenomics/cruise_scripts
+[submodule "cruise_admin"]
+	path = cruise_admin
+	url = https://github.com/FSUgenomics/cruise_admin
