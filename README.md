@@ -1,6 +1,6 @@
 # cruize
 
-## a dockerized UCSC genome browser, customizable with simple google spreadsheets
+## a dockerized UCSC genome browser, customizable with simple google spreadsheets. This is still a work in progress and not ready for general use.
 
 ## why
 
