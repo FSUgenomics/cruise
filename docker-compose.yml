@@ -43,8 +43,8 @@ services:
     networks:
     - cruise_nw
     depends_on:
-    - cruise_www
-    - cruise_sql
+    - www
+    - sql
 # UNCOMMENT BELOW TO ENABLE BLAT ON THE SAME HOST RUNNING THE BROWSER
 #   MAKE SURE YOU HAVE ENOUGH RAM ON HOST (>500MByte/GBase for DNA, >1GB/GBase for Protein )
   # blat:
