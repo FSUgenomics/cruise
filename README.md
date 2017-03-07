@@ -1,6 +1,6 @@
 # cruize
 
-## a dockerized UCSC genome browser, customizable with simple google spreadsheets
+## a dockerized UCSC genome browser, customizable with simple google spreadsheets. This is still a work in progress and not ready for general use.
 
 ## why
 
@@ -106,7 +106,7 @@ runcmd:
   - curl https://get.docker.com/ | sh
   - curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
   - chmod +x /usr/local/bin/docker-compose
-  - git clone --recursive https://github.com/fsugenomics/cruise /root/cruise
+  - git clone --recursive https://github.com/fsugenomics/cruize /root/cruise
   - systemctl enable docker
   - systemctl start docker
   - cd cruise && docker-compose up
