@@ -28,7 +28,6 @@ services:
     - "80:80"
     - "443:443"
     volumes:
-# change this to mount a different host directory for the gbdb dir
     - ./gbdb:/gbdb:ro
     - ./cruise_scripts:/usr/local/bin
     networks:
@@ -43,8 +42,8 @@ services:
     networks:
     - cruise_nw
     depends_on:
-    - cruise_www
-    - cruise_sql
+    - www
+    - sql
 # UNCOMMENT BELOW TO ENABLE BLAT ON THE SAME HOST RUNNING THE BROWSER
 #   MAKE SURE YOU HAVE ENOUGH RAM ON HOST (>500MByte/GBase for DNA, >1GB/GBase for Protein )
   # blat:
